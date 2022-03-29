@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { ReactSketchCanvas } from "react-sketch-canvas";
-import { Button } from "react-bootstrap";
+import { Alert, Button } from "react-bootstrap";
 import { saveAs } from "file-saver";
 import axios from "axios";
 
@@ -25,13 +25,11 @@ const Draw = () => {
       });
   };
 
-  const handleReset = () => {
+  const sketchReset = () => {
     sketch.current.clearCanvas();
   };
 
   const sendData = (c) => {
-    console.log(c);
-
     const headers = {
       accept: "application/json",
     };
@@ -43,6 +41,10 @@ const Draw = () => {
       .then((res) => {
         console.log(res.data);
         setSend(true);
+        sketchReset();
+        setTimeout(() => {
+          setSend(false);
+        }, 2000);
       })
       .catch((err) => console.log(err));
   };
@@ -51,6 +53,7 @@ const Draw = () => {
 
   return (
     <React.Fragment>
+      {send && <Alert variant="info">Succesfully send to classification</Alert>}
       <ReactSketchCanvas
         ref={sketch}
         style={styles}
@@ -63,7 +66,7 @@ const Draw = () => {
         <Button onClick={handleSubmit} variant="primary">
           Save
         </Button>
-        <Button onClick={handleReset} variant="primary">
+        <Button onClick={sketchReset} variant="primary">
           Reset
         </Button>
       </div>
