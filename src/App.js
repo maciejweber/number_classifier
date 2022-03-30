@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>Draw it!</p>
+        <p>Digits classifier!</p>
         <Draw />
       </header>
     </div>

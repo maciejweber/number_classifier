@@ -8,6 +8,11 @@ djangorestframework = "*"
 django-cors-headers = "*"
 pillow = "*"
 python-decouple = "*"
+keras = "*"
+opencv-python = "*"
+numpy = "*"
+tensorflow = "*"
+nbformat = "*"
 
 [dev-packages]
 

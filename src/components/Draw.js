@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import { ReactSketchCanvas } from "react-sketch-canvas";
 import { Alert, Button } from "react-bootstrap";
-import { saveAs } from "file-saver";
 import axios from "axios";
 
 const styles = {
@@ -11,6 +10,7 @@ const styles = {
 
 const Draw = () => {
   const [send, setSend] = useState(false);
+  const [result, setResult] = useState();
   const sketch = useRef();
 
   const handleSubmit = () => {
@@ -41,6 +41,7 @@ const Draw = () => {
       .then((res) => {
         console.log(res.data);
         setSend(true);
+        getImageResult(res.data.id);
         sketchReset();
         setTimeout(() => {
           setSend(false);
@@ -49,18 +50,26 @@ const Draw = () => {
       .catch((err) => console.log(err));
   };
 
-  const getImageResult = (id) => {};
+  const getImageResult = (id) => {
+    axios.get(`http://127.0.0.1:8000/api/digits/${id}/`).then((res) => {
+      setResult(res.data.result);
+    });
+  };
 
   return (
     <React.Fragment>
-      {send && <Alert variant="info">Succesfully send to classification</Alert>}
+      {send && (
+        <Alert variant="info">Succesfully send for classification</Alert>
+      )}
+      {result && <h3>Result is {result}</h3>}
       <ReactSketchCanvas
         ref={sketch}
         style={styles}
         width="800px"
         height="800px"
-        strokeWidth={10}
-        strokeColor="black"
+        strokeWidth={60}
+        strokeColor="white"
+        canvasColor="black"
       />
       <div className="mt-3 mx-0">
         <Button onClick={handleSubmit} variant="primary">
