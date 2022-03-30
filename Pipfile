@@ -13,6 +13,8 @@ opencv-python = "*"
 numpy = "*"
 tensorflow = "*"
 nbformat = "*"
+gunicorn = "*"
+whitenoise = "*"
 
 [dev-packages]
 

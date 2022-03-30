@@ -8,7 +8,8 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['http://localhost:3000', "127.0.0.1"]
+ALLOWED_HOSTS = ['localhost:3000', "127.0.0.1",
+                 "mw-digits-classifier.herokuapp.com"]
 
 
 # Application definition
@@ -39,6 +40,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "corsheaders.middleware.CorsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -50,7 +52,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -114,6 +116,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'build/static')
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
